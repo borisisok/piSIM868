@@ -6,11 +6,9 @@ import pwr
 # Enable Serial Communication
 ser = serial.Serial()
 ser.port = "/dev/ttyS0"
-#ser.baudrate = 115200
-ser.baudrate = 9600
+ser.baudrate = 115200
+#ser.baudrate = 9600
 ser.timeout = 1
-
-AT_HELLO = b'AT'
 
 logging.basicConfig(level=logging.INFO)
 
@@ -18,7 +16,7 @@ def open():
     if not ser.is_open:
         ser.open()
 
-def response(q):
+def send(q):
     try:
         cmd = b'' + q
         ser.write(cmd + '\r')
@@ -42,24 +40,5 @@ def response(q):
     return None
 
 
-def has_pwr():
-    cmd = b'AT'
-    if 'OK' in response(AT_HELLO):
-        logging.debug("Modem says Hello") 
-        return True
-    return False
 
 
-def test():
-    open()
-    if not has_pwr():
-        logging.info("Switching modem on now") 
-        pwr.toggle()
-        time.sleep(2)
-    if has_pwr():
-        logging.info("Modem is ready now") 
-    else:
-        logging.warning("Modem is still not ready. Aborting") 
-
-    time.sleep()
-    logging.info("Modem is ready now") 
