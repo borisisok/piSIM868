@@ -1,13 +1,11 @@
 import serial
 import time
 import logging
-import pwr
+import sim868.pwr
 
-# Enable Serial Communication
 ser = serial.Serial()
 ser.port = "/dev/ttyS0"
 ser.baudrate = 115200
-#ser.baudrate = 9600
 ser.timeout = 1
 
 logging.basicConfig(level=logging.INFO)
@@ -19,6 +17,7 @@ def open():
 def send(q):
     try:
         cmd = b'' + q
+        logging.info("sending: '" + cmd + "'")
         ser.write(cmd + '\r')
         logging.debug("ask_modem: " + cmd)
         read = True

@@ -1,5 +1,5 @@
-from at import AT
-import conn
+from sim868.at import AT
+import sim868.conn as conn
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
